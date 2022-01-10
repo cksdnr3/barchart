@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+    <style>
+      body {
+        font-size: 11px;
+        background-color: skyblue;
+      }
+      #myChart {
+        margin: 100px auto;
+        padding: 10px 20ox;
+        width: 1000px;
+        height: 500px;
+        border: 1px solid black;
+        background-color: white;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="myChart"></div>
+    <script>
+      // D3 API => selection
+      const svg = d3
+        .select("#myChart") // Select HTML element
+        .append("svg") // Append HTML element
+        .attr("width", 600) // Append HTML attribute
+        .attr("height", 600);
+
+      const margin = { top: 20, right: 20, bottom: 100, left: 100 };
+      const graphWidth = 600 - margin.right;
+      const graphHeight = 600 - margin.top - margin.bottom;
+
+      // selection API => selection
+      const graph = svg
+        .append("g") // Append HTML element
+        .attr("width", graphWidth) // Apend HTML attribute
+        .attr("height", graphHeight)
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+      const xAxisGroup = graph
+        .append("g")
+        .attr("transform", `translate(0, ${graphHeight})`);
+      const yAxisGroup = graph.append("g");
+
+      const draw = (data) => {
+        // Bar Rects
+        const rects = graph
+          .selectAll("rect")
+          .data(data)
+          .enter()
+          .append("rect")
+          .transition()
+          .attr("x", (value, index) => (i * (graphWidth + 5)) / data.length)
+          .attr("y", (value, index) => graphHeight - value.orders / 10)
+          .attr("width", graphWidth / data.length - 5)
+          .attr("height", (value, index) => value.orders / 10)
+          .attr("fill", (value, index) => `rgb(0, 0, ${value.orders / 10})`);
+
+        // const
+      };
+
+      d3.json("data.json", draw);
+    </script>
+  </body>
+</html>
