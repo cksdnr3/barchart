@@ -16,11 +16,16 @@
         width: 808px;
         margin: 0 auto;
       }
-      .legend {
+      .legend-container {
         display: flex;
         flex-direction: row-reverse;
         margin-bottom: 17px;
       }
+
+      .legend {
+        display: flex;
+      }
+
       .legend > p {
         margin: 0 0 0 9px;
       }
@@ -45,25 +50,48 @@
   </head>
   <body>
     <main class="main">
-      <section id="chart-1">
+      <section>
         <div id="chart-wrapper">
-          <div class="legend">
-            <p>총 문제</p>
-            <svg width="15" height="15">
-              <circle cx="7" cy="7" r="6" style="fill: #8d98ff"></circle>
-            </svg>
+          <div class="legend-container">
+            <div class="legend">
+              <svg width="15" height="15">
+                <circle cx="9" cy="7" r="6" style="fill: #8d98ff"></circle>
+              </svg>
+              <p>총 문제</p>
+            </div>
           </div>
-          <canvas id="chart"></canvas>
+          <canvas id="chart-1"></canvas>
+          <div id="x-axis">
+          </div>
+        </div>
+      </section>
+      <section>
+        <div id="chart-wrapper">
+          <div class="legend-container">
+            <div>
+              <div class="legend">
+                <svg width="15" height="15">
+                  <circle cx="9" cy="7" r="6" style="fill: #8d98ff"></circle>
+                </svg>
+                <p>Legend1</p>
+              </div>
+              <div class="legend">
+                <svg width="15" height="15">
+                  <circle cx="9" cy="7" r="6" style="fill: #8d98ff"></circle>
+                </svg>
+                <p>Legend2</p>
+              </div>
+            </div>
+          </div>
+          <canvas id="chart-2"></canvas>
           <div id="x-axis">
           </div>
         </div>
       </section>
     </main>
     <script>
-      const ctx = document.getElementById("chart")
-      // data area
+      // setup area
       const data = [40, 40, 40, 40, 40, 40, 40];
-
       const style = {
         wrapper: {
           width: 808,
@@ -71,41 +99,19 @@
         canvas: {
           width: 808,
           height: 404,
-        }
+        },
       }
-      console.log(style.canvas);
-
-      function render_divders() {
-        const xAxis = document.getElementById('x-axis');
-        let xPosition = 0;
-
-        for (let i = 1; i < data.length; i++) {
-          xPosition = xPosition + (style.canvas.width / data.length);
-          console.log(xPosition)
-          const divider = document.createElement('div');
-          divider.style.width = '1px';
-          divider.style.height = '26px';
-          divider.style.backgroundColor = '#fff';
-          divider.style.position = 'relative';
-          divider.style.left = `${xPosition}px`;
-          xAxis.appendChild(divider);
-        }
-      }
-
-      
-
 
       // Render area
-
-      const myChart = new Chart(ctx, {
+      const chart1 = new Chart(document.getElementById("chart-1"), 
+      {
         type: "bar",
         data: {
-          labels: data.map((v) => `${v} 개`),
+          labels: data.map((v) => `${v}개`),
           datasets: [
             {
               data: data,
               backgroundColor: "#8D98FF",
-              borderColor: "#8D98FF",
               barThickness: 30.72,
             },
           ],
@@ -114,7 +120,7 @@
           layout: {
             padding: {
               bottom: 156,
-            },
+            }
           },
           plugins: {
             legend: {
@@ -145,8 +151,71 @@
         },
       });
 
+      function render_divders() {
+        const xAxis = document.getElementById('x-axis');
+        let xPosition = 0;
+
+        for (let i = 1; i < data.length; i++) {
+          xPosition = xPosition + (style.canvas.width / data.length);
+          const divider = document.createElement('div');
+          divider.style.width = '1px';
+          divider.style.height = '26px';
+          divider.style.backgroundColor = '#fff';
+          divider.style.position = 'relative';
+          divider.style.left = `${xPosition}px`;
+          xAxis.appendChild(divider);
+        }
+      }
+
       render_divders();
 
+      const chart2 = new Chart(document.getElementById('chart-2'), {
+        data: {
+          labels: data.map(v => `${v}개`),
+          datasets: [{
+            type: 'bar',
+            backgroundColor: '#8d98ff',
+            data, 
+          }, {
+            type: 'bar',
+            backgroundColor: '#8d98ff',
+            data,
+          }],
+        },
+        options: {
+          layout: {
+            padding: {
+              bottom: 156,
+            }
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+                drawBorder: false,
+                drawTicks: false,
+              },
+              ticks: {
+                padding: 15,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+                drawBorder: false,
+              },
+              ticks: {
+                display: false,
+              }
+            }
+          },
+        },
+      })
     </script>
   </body>
 </html>
