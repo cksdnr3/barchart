@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Document</title>
+    <style>
+      .main {
+        width: 952px;
+        margin: 0 auto;
+        font-size: 12px;
+      }
+      #chart-wrapper {
+        width: 808px;
+        margin: 0 auto;
+      }
+      .legend {
+        display: flex;
+        flex-direction: row-reverse;
+        margin-bottom: 17px;
+      }
+      .legend > p {
+        margin: 0 0 0 9px;
+      }
+
+      #x-axis {
+        position: relative;
+        top: -200px;
+        display: flex;
+        align-items: center;
+        z-index: -1;
+        height: 43px;
+        background: #e8ecf2;
+        border-radius: 4px;
+      }
+
+      #x-axis-divider {
+        width: 100px;
+        height: 26px;
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="main">
+      <section id="chart-1">
+        <div id="chart-wrapper">
+          <div class="legend">
+            <p>총 문제</p>
+            <svg width="15" height="15">
+              <circle cx="7" cy="7" r="6" style="fill: #8d98ff"></circle>
+            </svg>
+          </div>
+          <canvas id="chart"></canvas>
+          <div id="x-axis">
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const ctx = document.getElementById("chart")
+      // data area
+      const data = [40, 40, 40, 40, 40, 40, 40];
+
+      const style = {
+        wrapper: {
+          width: 808,
+        },
+        canvas: {
+          width: 808,
+          height: 404,
+        }
+      }
+      console.log(style.canvas);
+
+      function render_divders() {
+        const xAxis = document.getElementById('x-axis');
+        let xPosition = 0;
+
+        for (let i = 1; i < data.length; i++) {
+          xPosition = xPosition + (style.canvas.width / data.length);
+          console.log(xPosition)
+          const divider = document.createElement('div');
+          divider.style.width = '1px';
+          divider.style.height = '26px';
+          divider.style.backgroundColor = '#fff';
+          divider.style.position = 'relative';
+          divider.style.left = `${xPosition}px`;
+          xAxis.appendChild(divider);
+        }
+      }
+
+      
+
+
+      // Render area
+
+      const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: data.map((v) => `${v} 개`),
+          datasets: [
+            {
+              data: data,
+              backgroundColor: "#8D98FF",
+              borderColor: "#8D98FF",
+              barThickness: 30.72,
+            },
+          ],
+        },
+        options: {
+          layout: {
+            padding: {
+              bottom: 156,
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+          scales: {
+            x: {
+              grid: {
+                display: false,
+                drawBorder: false,
+                drawTicks: false,
+              },
+              ticks: {
+                padding: 15,
+              },
+            },
+            y: {
+              grid: {
+                display: false,
+                drawBorder: false,
+              },
+              ticks: {
+                display: false,
+              }
+            }
+          },
+        },
+      });
+
+      render_divders();
+
+    </script>
+  </body>
+</html>

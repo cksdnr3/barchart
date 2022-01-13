@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    <style>
+      #chart-container {
+        width: 70%;
+        margin: 0 auto;
+      }
+      #chart {
+        fill: white;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="chart-container">
+      <canvas id="chart"></canvas>
+    </div>
+    <script>
+      // const labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+      // const data = [
+      //   { name: "A", value: 63 },
+      //   { name: "C", value: 78 },
+      //   { name: "D", value: 55 },
+      //   { name: "E", value: 67 },
+      //   { name: "F", value: 20 },
+      //   { name: "G", value: 40 },
+      // ];
+
+      const options = {
+        legend: {
+          labels: { usePointStyle: true, pointStyle: "circle" },
+          position: "right",
+          align: "center",
+        },
+        scales: {
+          xAxis: {
+            type: "time",
+          },
+        },
+        plugins: {
+          legend: {
+            position: "right",
+            align: "center",
+          },
+        },
+      };
+
+      const plugin = {
+        id: "custom_canvas_background_color",
+        beforeDraw: (chart) => {
+          console.log("call?");
+          const ctx = chart.canvas.getContext("2d");
+          ctx.save();
+          ctx.globalCompositeOperation = "destination-over";
+          ctx.fillStyle = "lightGreen";
+          ctx.fillRect(0, 0, chart.width, chart.height);
+          ctx.restore();
+        },
+      };
+
+      const config = {
+        type: "bar",
+        data: {
+          datasets: [
+            {
+              label: "Red",
+              data: [300],
+              backgroundColor: ["rgb(255, 99, 132)"],
+            },
+            {
+              label: "Blue",
+              data: [50],
+              backgroundColor: ["rgb(54, 162, 235)"],
+            },
+            {
+              label: "Yellow",
+              data: [100],
+              backgroundColor: ["rgb(255, 205, 86)"],
+            },
+          ],
+        },
+        options,
+        plugins: [plugin],
+      };
+
+      const chart = new Chart(document.getElementById("chart"), config);
+    </script>
+  </body>
+</html>

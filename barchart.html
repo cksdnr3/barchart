@@ -10,7 +10,8 @@
         font-size: 11px;
         background-color: skyblue;
       }
-      #myChart {
+
+      .chart-container {
         margin: 100px auto;
         padding: 10px 20ox;
         width: 1000px;
@@ -22,11 +23,11 @@
     <title>Document</title>
   </head>
   <body>
-    <div id="myChart"></div>
+    <div class="chart-container"></div>
     <script>
       // D3 API => selection
       const svg = d3
-        .select("#myChart") // Select HTML element
+        .select(".chart-container") // Select HTML element
         .append("svg") // Append HTML element
         .attr("width", 600) // Append HTML attribute
         .attr("height", 600);
